@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffc928">
+<title>Thợ Nhanh &amp; Việc Nhanh</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f4f5f2;--surf:#fff;--ink:#14263a;--mut:#667587;--line:#e3e6e1;--y:#ffc928;--y2:#ffe08a;--ok:#1d7a4d;--bad:#b3261e;--navy:#14263a;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1824;--surf:#172637;--ink:#e8edf2;--mut:#9aa8b6;--line:#2a3b4e;--ok:#4cc38a;--bad:#ff8a80;--navy:#0a121b;color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "Be Vietnam Pro",system-ui,sans-serif}
+.app{max-width:560px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:calc(92px + env(safe-area-inset-bottom,0))}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.hero{background:linear-gradient(160deg,var(--y),#ffb300);color:#14263a;padding:calc(14px + env(safe-area-inset-top,0)) 16px 56px;border-radius:0 0 28px 28px}
+.hero.sm{padding-bottom:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hi{font-weight:800;font-size:18px;line-height:1.2}.hi small{display:block;font-weight:500;font-size:13px;opacity:.75}
+.loc{border:0;background:rgba(255,255,255,.55);color:#14263a;font:inherit;font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;cursor:pointer}
+.search{position:relative;margin-top:14px}
+.search input{width:100%;font:inherit;border:0;border-radius:14px;padding:13px 14px 13px 42px;background:#fff;color:#14263a;box-shadow:0 4px 14px rgba(20,38,58,.15)}
+.search i{position:absolute;left:14px;top:12px;font-style:normal}
+#sug{position:absolute;left:0;right:0;top:50px;background:var(--surf);color:var(--ink);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:6;overflow:hidden}
+#sug button{display:flex;gap:10px;width:100%;border:0;background:none;color:inherit;font:inherit;padding:10px 14px;text-align:left;cursor:pointer;border-bottom:1px solid var(--line)}
+.pad{padding:0 16px}
+.float{margin-top:-38px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--surf);border-radius:16px;padding:12px 6px;box-shadow:0 4px 16px rgba(20,38,58,.1)}
+.quick button{border:0;background:none;color:var(--ink);font:inherit;font-size:12px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center}
+.ic{width:46px;height:46px;border-radius:14px;background:var(--y2);display:flex;align-items:center;justify-content:center;font-size:22px;color:#14263a}
+.banner{margin:14px 0;border-radius:16px;background:var(--navy);color:#fff;padding:14px 16px}
+.banner b{color:var(--y)}.banner .st{display:flex;gap:14px;margin-top:8px;font-size:13px;opacity:.9;flex-wrap:wrap}
+.sec{background:var(--surf);border-radius:16px;padding:14px;margin-bottom:12px}
+.sec h2{display:flex;align-items:center;justify-content:space-between;font-size:16px;margin:0 0 12px}
+.badge{font-size:11px;font-weight:700;background:var(--y);color:#14263a;padding:3px 10px;border-radius:999px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{border:0;background:none;color:var(--ink);font:inherit;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;padding:4px 2px}
+.tile .ic{width:58px;height:58px;font-size:28px;border-radius:18px}
+.tile:active .ic,.quick button:active .ic{transform:scale(.94)}
+.card{background:var(--surf);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--line)}
+.job{display:flex;gap:12px}.job .ic{flex:none;width:44px;height:44px;font-size:22px}.job .bd{flex:1;min-width:0}
+.job h3{margin:0;font-size:15px;line-height:1.3}
+.job img.ph{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-top:8px}
+.mut{color:var(--mut);font-size:13px}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.dist{font-weight:800;white-space:nowrap;background:var(--y2);color:#14263a;padding:2px 10px;border-radius:999px;font-size:13px}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.bad{color:var(--bad);border-color:var(--bad)}.tag.w{color:#9a6b00;border-color:#e0a800}
+label{display:block;font-weight:700;font-size:13px;margin:14px 0 5px}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:11px}
+textarea{min-height:84px}
+.btn{border:0;font:inherit;font-weight:800;background:var(--y);color:#14263a;padding:13px 16px;border-radius:12px;cursor:pointer;width:100%;font-size:15px}
+.btn.sec{background:none;color:var(--ink);border:1.5px solid var(--ink)}.btn.bad{background:none;color:var(--bad);border:1.5px solid var(--bad)}
+.btn.sm{width:auto;padding:7px 14px;font-size:13px}.btn:disabled{opacity:.5;cursor:wait}
+.contact{background:color-mix(in srgb,var(--ok) 14%,var(--surf));border:1px solid var(--ok);border-radius:10px;padding:9px 11px;margin-top:10px;font-weight:700}
+.lnk{display:inline-block;background:var(--navy);color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-size:13px}
+.star{color:#d99a00;font-weight:800}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px}
+.chips button{flex:none;border:1.5px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;font-size:13px;padding:6px 13px;border-radius:999px;cursor:pointer}
+.chips button.on{border-color:var(--navy);background:var(--navy);color:#fff;font-weight:700}
+.stars{display:flex;gap:4px}.stars button{border:0;background:none;font-size:36px;line-height:1;color:var(--line);cursor:pointer;padding:0 2px}.stars button.on{color:#ffb300}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--surf);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}
+.nav div{max-width:560px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-around;padding:6px 4px 8px}
+.nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 0}
+.nav button span{font-size:21px;line-height:1.2}.nav button.on{color:var(--ink);font-weight:800}
+.nav button.ctr span{width:54px;height:54px;border-radius:50%;background:var(--y);color:#14263a;display:flex;align-items:center;justify-content:center;font-size:30px;margin-top:-26px;box-shadow:0 4px 12px rgba(255,179,0,.55);border:4px solid var(--surf)}
+.sk{height:84px;border-radius:14px;margin-bottom:12px;background:linear-gradient(90deg,var(--line),var(--surf),var(--line));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0));transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;z-index:20;max-width:90%;text-align:center}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+.role{display:grid;grid-template-columns:1fr 1fr;gap:10px}.role button{border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;border-radius:14px;padding:14px 8px;cursor:pointer;font-weight:700}.role button.on{border-color:var(--y);background:var(--y2);color:#14263a}.role span{display:block;font-size:30px}
+.av{width:72px;height:72px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#14263a;margin:0 auto 8px}
+svg.radar{width:100%;max-width:300px;display:block;margin:0 auto}
+</style>
+</head>
+<body>
+<div class="app"><main id="main"></main></div>
+<nav class="nav" id="nav" hidden></nav>
+<div id="toast" class="toast" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var CFG=window.CFG||{};
+if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.indexOf("YOUR-")>=0||typeof supabase==="undefined"){
+  $("main").innerHTML='<div class="pad" style="padding-top:40px"><div class="card"><h3>Chưa cấu hình Supabase</h3><p>Mở <b>web/config.js</b>, dán Project URL và anon key, rồi tải lại trang.</p></div></div>';return}
+var sb=supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
+var SUBS={camera:["📹|Lắp camera mới","🛠️|Sửa camera, đầu ghi","📱|Cài xem từ xa","🔌|Kéo dây camera"],
+mang:["📶|Wi-Fi yếu, mất sóng","🌐|Kéo dây mạng","⚙️|Cấu hình router","📡|Lắp thêm access point"],
+lanh:["❄️|Sửa máy lạnh","🧼|Vệ sinh máy lạnh","💨|Bơm gas máy lạnh","🏠|Lắp máy lạnh mới","🧊|Sửa tủ lạnh","🧺|Sửa máy giặt"],
+may:["💻|Laptop không lên nguồn","🪟|Cài Windows","🧹|Vệ sinh laptop, PC","🐢|Máy chạy chậm, virus","🖨️|Sửa máy in"],
+dien:["💡|Sửa điện","🔌|Lắp đặt điện","🚰|Sửa ống nước","🪠|Thông cống nghẹt","🚿|Lắp thiết bị vệ sinh","⚡|Chập điện, mất điện"],
+khoa:["🔑|Mở khóa cửa","🔐|Thay ruột khóa","🗝️|Làm chìa khóa","📲|Lắp khóa điện tử"]};
+var S={user:null,prof:null,services:[],stats:null,nav:"home",mode:"login",role:"customer",loc:{lat:10.46,lng:105.633,gps:false},radius:15,fsvc:0,
+  form:{svc:0,title:"",desc:"",addr:""},file:null,prev:null,rate:null,stars:0,comment:"",busy:false,rid:0,last:""};
+
+function toast(m){var t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},3500)}
+function fail(e){var m=e&&e.message?e.message:"Có lỗi xảy ra";
+  if(/Invalid login/i.test(m))m="Sai số điện thoại hoặc mật khẩu";
+  else if(/already registered/i.test(m))m="Số điện thoại này đã đăng ký. Hãy đăng nhập";
+  else if(/Failed to fetch|NetworkError/i.test(m))m="Mất kết nối mạng. Hãy thử lại";
+  else if(/rate limit/i.test(m))m="Thao tác quá nhanh, hãy đợi một chút";
+  toast(m)}
+function normPhone(p){p=String(p||"").replace(/[\s.\-()]/g,"");if(p.indexOf("+84")===0)p="0"+p.slice(3);else if(p.indexOf("84")===0&&p.length===11)p="0"+p.slice(2);return p}
+function fmtPhone(p){return String(p).replace(/^(\d{4})(\d{3})(\d{3})$/,"$1 $2 $3")}
+function fmtD(d){return d<1?Math.round(d*1000)+" m":d.toFixed(1)+" km"}
+function ago(t){var m=Math.max(0,Math.round((Date.now()-new Date(t))/60000));if(m<1)return"vừa xong";if(m<60)return m+" phút trước";if(m<1440)return Math.floor(m/60)+" giờ trước";return Math.floor(m/1440)+" ngày trước"}
+function svc(id){return S.services.filter(function(x){return x.id===id})[0]||{icon:"🛠️",name:"",slug:""}}
+function stars(n){n=Math.round(n);return"★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n)}
+function rateTxt(r){return r&&r.cnt>0?'<span class="star">★ '+r.avg+'</span> ('+r.cnt+' đánh giá)':'<span class="mut">Chưa có đánh giá</span>'}
+function statusTag(s){var m={open:["Chờ thợ","w"],taken:["Thợ đang xử lý","ok"],done:["Hoàn thành","ok"],cancelled:["Đã hủy","bad"]}[s]||[s,""];return'<span class="tag '+m[1]+'">'+m[0]+'</span>'}
+function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d")}
+function contact(c,label){if(!c)return"";var p=c.phone||"";
+  return'<div class="contact"><div>'+label+" "+esc(c.full_name)+'</div>'+(c.rating?'<div>'+rateTxt(c.rating)+'</div>':"")+
+  '<div class="row" style="justify-content:flex-start;margin-top:8px"><a class="lnk" href="tel:'+esc(p)+'">📞 '+esc(fmtPhone(p))+'</a><a class="lnk" target="_blank" rel="noopener" href="https://zalo.me/'+esc(p)+'">Zalo</a></div></div>'}
+function shrink(f){return new Promise(function(res,rej){var i=new Image();i.onload=function(){var k=Math.min(1,800/i.width),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(function(b){b?res(b):rej(new Error("Không đọc được ảnh"))},"image/jpeg",.75)};i.onerror=function(){rej(new Error("Không đọc được ảnh"))};i.src=URL.createObjectURL(f)})}
+async function act(fn,done){if(S.busy)return;S.busy=true;try{await fn();if(done)toast(done)}catch(x){fail(x)}S.busy=false;render()}
+function go(n){S.nav=n;window.scrollTo(0,0);render()}
+
+async function boot(){
+  try{
+    var r=await sb.auth.getSession();S.user=r.data.session?r.data.session.user:null;S.prof=null;
+    if(S.user){
+      var q=await Promise.all([sb.from("profiles").select("*").eq("id",S.user.id).maybeSingle(),sb.from("services").select("*").order("id")]);
+      S.prof=q[0].data;S.services=q[1].data||[];if(!S.form.svc&&S.services[0])S.form.svc=S.services[0].id;
+      S.nav=S.prof&&S.prof.role==="worker"?"jobs":"home";
+    }
+  }catch(x){fail(x)}
+  S.last="";render();
+}
+sb.auth.onAuthStateChange(function(ev,sess){var uid=sess&&sess.user?sess.user.id:null;if(uid!==(S.user?S.user.id:null))boot()});
+function gps(){
+  if(!navigator.geolocation)return toast("Thiết bị không hỗ trợ GPS");
+  toast("Đang lấy vị trí…");
+  navigator.geolocation.getCurrentPosition(function(p){S.loc={lat:p.coords.latitude,lng:p.coords.longitude,gps:true};toast("Đã lấy vị trí GPS");render()},
+  function(){toast("Không lấy được GPS. Hãy cho phép vị trí trong trình duyệt")},{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+}
+function locChip(){return'<button class="loc" data-gps="1">📍 '+(S.loc.gps?"Vị trí GPS":"Cao Lãnh")+' · cập nhật</button>'}
+function bar(t,back){return'<div class="hero sm"><div class="top"><div class="hi">'+(back?'<button class="loc" data-go="'+back+'">←</button> ':"")+t+'</div></div></div><div class="pad" style="margin-top:16px">'}
+
+/* ---------- Auth ---------- */
+function viewAuth(){
+  var su=S.mode==="signup";
+  return'<div class="hero" style="padding-bottom:70px"><div class="hi" style="font-size:26px">🛠️ Thợ Nhanh<small>Việc Nhanh · Gọi thợ tại nhà, miễn phí đăng tin</small></div></div>'+
+  '<div class="pad float"><div class="card" style="box-shadow:0 6px 20px rgba(20,38,58,.12)"><div class="chips" style="margin:0"><button data-m="login" class="'+(su?"":"on")+'">Đăng nhập</button><button data-m="signup" class="'+(su?"on":"")+'">Đăng ký</button></div>'+
+  (su?'<label>Bạn là</label><div class="role"><button data-r="customer" class="'+(S.role==="customer"?"on":"")+'"><span>🏠</span>Khách cần thợ</button><button data-r="worker" class="'+(S.role==="worker"?"on":"")+'"><span>👷</span>Thợ kỹ thuật</button></div><label for="a-name">Họ tên</label><input id="a-name" autocomplete="name">':"")+
+  '<label for="a-phone">Số điện thoại</label><input id="a-phone" inputmode="tel" autocomplete="tel" placeholder="0912 345 678">'+
+  '<label for="a-pass">Mật khẩu (từ 6 ký tự)</label><input id="a-pass" type="password" autocomplete="'+(su?"new-password":"current-password")+'">'+
+  '<div style="margin-top:18px"><button class="btn" id="a-go">'+(su?"Tạo tài khoản":"Đăng nhập")+'</button></div></div></div>';
+}
+function doAuth(){act(async function(){
+  var ph=normPhone($("a-phone").value),pw=$("a-pass").value,em=ph+"@sdt.thonhanh.app";
+  if(!/^0\d{9}$/.test(ph))throw new Error("Số điện thoại gồm 10 số, bắt đầu bằng 0");
+  if(pw.length<6)throw new Error("Mật khẩu cần từ 6 ký tự");
+  if(S.mode==="signup"){
+    var n=$("a-name").value.trim();if(n.length<2)throw new Error("Hãy nhập họ tên");
+    var r=await sb.auth.signUp({email:em,password:pw,options:{data:{full_name:n,phone:ph,role:S.role}}});
+    if(r.error)throw r.error;
+    if(!r.data.session)throw new Error("Đã tạo tài khoản nhưng chưa đăng nhập được. Chủ web cần tắt Confirm email trong Supabase");
+  }else{var r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error)throw r2.error}
+})}
+
+/* ---------- Khách ---------- */
+async function viewHome(){
+  var st=S.stats;
+  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc((S.prof.full_name||"bạn").split(" ").pop())+'<small>Bạn cần thợ gì hôm nay?</small></div>'+locChip()+'</div>'+
+  '<div class="search"><i>🔍</i><input id="q" placeholder="Sửa máy lạnh, camera, wifi, khóa…" autocomplete="off" aria-label="Tìm dịch vụ"><div id="sug" hidden></div></div></div>'+
+  '<div class="pad float"><div class="quick">'+[["post","✏️","Đăng tin nhanh"],["mine","⏳","Tin đang chờ"],["hist","🕘","Lịch sử"],["share","🎁","Mời bạn bè"]].map(function(x){return'<button '+(x[0]==="share"?'data-share="1"':'data-go="'+x[0]+'"')+'><span class="ic">'+x[1]+'</span>'+x[2]+'</button>'}).join("")+'</div>'+
+  '<div class="banner"><b>Đăng tin miễn phí</b>, thợ gần bạn gọi lại trong vài phút.'+(st?'<div class="st"><span>👷 '+st.workers+' thợ đã đăng ký</span><span>📌 '+st.open+' việc đang chờ</span><span>✅ '+st.done+' việc hoàn thành</span></div>':"")+'</div>';
+  S.services.forEach(function(s){
+    var n=st&&st.by?st.by[s.id]:0,subs=SUBS[s.slug]||[];
+    h+='<div class="sec"><h2><span>'+s.icon+" "+esc(s.name)+'</span>'+(n?'<span class="badge">'+n+' việc đang chờ</span>':"")+'</h2><div class="grid">'+
+    subs.map(function(x){var p=x.split("|");return'<button class="tile" data-sub="'+s.id+"|"+esc(p[1])+'"><span class="ic">'+p[0]+'</span>'+esc(p[1])+'</button>'}).join("")+
+    '<button class="tile" data-sub="'+s.id+'|"><span class="ic">➕</span>Khác</button></div></div>'});
+  return h+'</div>';
+}
+function jobCard(j,c,RV){var s=svc(j.service_id),h='<div class="card"><div class="job"><span class="ic">'+s.icon+'</span><div class="bd"><div class="row" style="align-items:flex-start"><h3>'+esc(j.title)+'</h3>'+statusTag(j.status)+'</div><div class="mut">'+ago(j.created_at)+(j.address?" · "+esc(j.address):"")+'</div></div></div>'+
+  (j.description?'<div style="margin-top:8px">'+esc(j.description)+'</div>':"")+(j.image_url?'<img class="ph" alt="Ảnh lỗi" loading="lazy" src="'+esc(j.image_url)+'">':"")+contact(c,"Thợ");
+  if(j.status==="open")h+='<div style="margin-top:10px"><button class="btn bad sm" data-cancel="'+j.id+'">Hủy tin</button></div>';
+  if(j.status==="taken"){
+    if(S.rate===j.id)h+='<label>Chấm sao cho thợ</label><div class="stars">'+[1,2,3,4,5].map(function(n){return'<button data-star="'+n+'" class="'+(S.stars>=n?"on":"")+'" aria-label="'+n+' sao">★</button>'}).join("")+'</div><textarea id="r-cm" maxlength="500" placeholder="Nhận xét về thợ (không bắt buộc)" style="margin-top:8px">'+esc(S.comment)+'</textarea><div class="row" style="margin-top:10px"><button class="btn" id="r-ok">Gửi đánh giá</button><button class="btn sec sm" id="r-no">Để sau</button></div>';
+    else h+='<div style="margin-top:10px"><button class="btn" data-rate="'+j.id+'">Đã xong, đánh giá thợ</button></div>';
+  }
+  if(j.status==="done"&&RV[j.id])h+='<div style="margin-top:8px"><span class="star">'+stars(RV[j.id].stars)+'</span> '+esc(RV[j.id].comment)+'</div>';
+  return h+'</div>'}
+async function viewList(hist){
+  var uid=S.user.id,h=bar(hist?"Lịch sử":"Tin của tôi");
+  var q=await Promise.all([sb.from("jobs").select("*").eq("customer_id",uid).order("created_at",{ascending:false}).limit(60),sb.from("reviews").select("job_id,stars,comment").eq("customer_id",uid)]);
+  if(q[0].error)throw q[0].error;
+  var L=(q[0].data||[]).filter(function(j){return hist?(j.status==="done"||j.status==="cancelled"):(j.status==="open"||j.status==="taken")}),RV={};(q[1].data||[]).forEach(function(r){RV[r.job_id]=r});
+  if(!L.length)return h+'<div class="empty"><div style="font-size:42px">'+(hist?"🕘":"📋")+'</div>'+(hist?"Chưa có tin nào hoàn thành.":"Bạn chưa có tin nào đang chờ.")+'<br><br>'+(hist?"":'<button class="btn sm" data-go="post">Đăng tin ngay</button>')+'</div></div>';
+  var C=await Promise.all(L.map(function(j){return(j.status==="taken"||j.status==="done")?sb.rpc("get_job_contact",{p_job:j.id}).then(function(x){return x.data}):null}));
+  L.forEach(function(j,i){h+=jobCard(j,C[i],RV)});
+  return h+'</div>';
+}
+function viewPost(){
+  var F=S.form,s=svc(F.svc),subs=SUBS[s.slug]||[];
+  return bar("Đăng tin tìm thợ","home")+'<div class="card"><label>Dịch vụ</label><div class="chips" style="margin:0">'+S.services.map(function(x){return'<button data-svc="'+x.id+'" class="'+(x.id===F.svc?"on":"")+'">'+x.icon+" "+esc(x.name)+'</button>'}).join("")+'</div>'+
+  '<label for="f-title">Bạn cần gì?</label><input id="f-title" maxlength="120" placeholder="Ví dụ: Máy lạnh phòng ngủ không mát" value="'+esc(F.title)+'">'+
+  '<div class="chips" style="margin-top:8px">'+subs.map(function(x){var n=x.split("|")[1];return'<button data-fill="'+esc(n)+'">'+esc(n)+'</button>'}).join("")+'</div>'+
+  '<label for="f-desc">Mô tả lỗi</label><textarea id="f-desc" maxlength="1000" placeholder="Thiết bị bị gì, từ khi nào, cần sửa lúc nào?">'+esc(F.desc)+'</textarea>'+
+  '<label for="f-img">Ảnh lỗi thiết bị (không bắt buộc)</label><input id="f-img" type="file" accept="image/*">'+(S.prev?'<img class="ph" alt="Ảnh đã chọn" style="width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-top:8px" src="'+S.prev+'">':"")+
+  '<label for="f-addr">Địa chỉ hoặc chỉ dẫn (không bắt buộc)</label><input id="f-addr" maxlength="200" placeholder="Ví dụ: Hẻm 12, đường Nguyễn Huệ" value="'+esc(F.addr)+'">'+
+  '<label>Vị trí nhà bạn</label><div class="row"><span class="mut">'+(S.loc.gps?"GPS: ":"Mặc định Cao Lãnh: ")+S.loc.lat.toFixed(4)+", "+S.loc.lng.toFixed(4)+'</span><button class="btn sec sm" data-gps="1">Lấy GPS</button></div>'+
+  '<div style="margin-top:18px"><button class="btn" id="b-post">Đăng tin miễn phí</button></div></div></div>';
+}
+function post(){act(async function(){
+  var F=S.form;if(F.title.trim().length<3)throw new Error("Tiêu đề cần ít nhất 3 ký tự");
+  var url=null;
+  if(S.file){var blob=await shrink(S.file),path=S.user.id+"/"+Date.now()+".jpg";
+    var up=await sb.storage.from("job-images").upload(path,blob,{contentType:"image/jpeg"});if(up.error)throw up.error;
+    url=sb.storage.from("job-images").getPublicUrl(path).data.publicUrl}
+  var r=await sb.rpc("create_job",{p_service:F.svc,p_title:F.title,p_desc:F.desc,p_image:url,p_lat:S.loc.lat,p_lng:S.loc.lng,p_address:F.addr||null});
+  if(r.error)throw r.error;
+  S.form={svc:F.svc,title:"",desc:"",addr:""};S.file=null;S.prev=null;S.nav="mine";
+},"Đã đăng tin. Thợ quanh bạn sẽ thấy ngay")}
+
+/* ---------- Thợ ---------- */
+function radar(L){
+  var R=100,c=120,h='<svg class="radar" viewBox="0 0 240 240" role="img" aria-label="Radar việc quanh bạn">';
+  [1,.66,.33].forEach(function(f){h+='<circle cx="'+c+'" cy="'+c+'" r="'+R*f+'" fill="none" stroke="var(--line)" stroke-width="1.5"/>'});
+  h+='<text x="'+(c+R-2)+'" y="'+(c-5)+'" text-anchor="end" font-size="10" fill="var(--mut)">'+S.radius+' km</text>';
+  L.forEach(function(j){var dx=(j.lng-S.loc.lng)*Math.cos(S.loc.lat*Math.PI/180),dy=j.lat-S.loc.lat,m=Math.sqrt(dx*dx+dy*dy)||1,f=Math.min(j.distance_km/S.radius,1),x=c+dx/m*f*R,y=c-dy/m*f*R;
+    h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="11" fill="#ffc928" stroke="#14263a" stroke-width="1.5"/><text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" text-anchor="middle" font-size="11">'+svc(j.service_id).icon+'</text>'});
+  return h+'<circle cx="'+c+'" cy="'+c+'" r="6" fill="#14263a"/></svg>';
+}
+async function viewJobs(){
+  var rt=await sb.rpc("worker_stats",{p_worker:S.user.id});
+  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc((S.prof.full_name||"thợ").split(" ").pop())+'<small>'+(rt.data&&rt.data.cnt>0?"★ "+rt.data.avg+" · "+rt.data.cnt+" đánh giá":"Chưa có đánh giá")+'</small></div>'+locChip()+'</div>'+
+  '<div style="margin-top:14px;background:rgba(255,255,255,.55);border-radius:14px;padding:10px 14px"><div class="row"><b id="rad-l">Bán kính tìm việc: '+S.radius+' km</b></div><input id="f-rad" type="range" min="2" max="30" value="'+S.radius+'" style="padding:0;margin-top:6px;border:0;background:none" aria-label="Bán kính"></div></div><div class="pad" style="margin-top:14px">';
+  var r=await sb.rpc("jobs_nearby",{p_lat:S.loc.lat,p_lng:S.loc.lng,p_radius_km:S.radius});
+  if(r.error)throw r.error;
+  var all=r.data||[],L=all.filter(function(j){return!S.fsvc||j.service_id===S.fsvc});
+  h+='<div class="card">'+radar(L)+'<div class="mut" style="text-align:center">'+L.length+' việc trong bán kính · tự làm mới mỗi 30 giây</div></div>';
+  h+='<div class="chips"><button data-f="0" class="'+(S.fsvc===0?"on":"")+'">Tất cả</button>'+S.services.map(function(s){return'<button data-f="'+s.id+'" class="'+(S.fsvc===s.id?"on":"")+'">'+s.icon+" "+esc(s.name)+'</button>'}).join("")+'</div>';
+  if(!L.length)h+='<div class="empty"><div style="font-size:42px">📡</div>Chưa có việc mới. Tăng bán kính hoặc quay lại sau.</div>';
+  L.forEach(function(j){var s=svc(j.service_id);
+    h+='<div class="card"><div class="job"><span class="ic">'+s.icon+'</span><div class="bd"><div class="row" style="align-items:flex-start"><h3>'+esc(j.title)+'</h3><span class="dist">'+fmtD(j.distance_km)+'</span></div><div class="mut">'+ago(j.created_at)+(j.address?" · "+esc(j.address):"")+'</div></div></div>'+(j.description?'<div style="margin-top:8px">'+esc(j.description)+'</div>':"")+(j.image_url?'<img class="ph" alt="Ảnh lỗi" loading="lazy" src="'+esc(j.image_url)+'">':"")+
+    '<div style="margin-top:10px"><button class="btn" data-a="'+j.id+'">Nhận việc miễn phí</button></div></div>'});
+  return h+'</div>';
+}
+async function viewTaken(){
+  var uid=S.user.id,h=bar("Việc đã nhận");
+  var q=await Promise.all([sb.from("jobs").select("*").eq("taken_by",uid).order("created_at",{ascending:false}).limit(60),sb.from("reviews").select("job_id,stars,comment").eq("worker_id",uid)]);
+  if(q[0].error)throw q[0].error;
+  var M=q[0].data||[],RV={};(q[1].data||[]).forEach(function(r){RV[r.job_id]=r});
+  if(!M.length)return h+'<div class="empty"><div style="font-size:42px">📋</div>Bạn chưa nhận việc nào.</div></div>';
+  var C=await Promise.all(M.map(function(j){return sb.rpc("get_job_contact",{p_job:j.id}).then(function(x){return x.data})}));
+  M.forEach(function(j,i){var s=svc(j.service_id);
+    h+='<div class="card"><div class="job"><span class="ic">'+s.icon+'</span><div class="bd"><div class="row" style="align-items:flex-start"><h3>'+esc(j.title)+'</h3>'+statusTag(j.status)+'</div><div class="mut">'+(j.address?esc(j.address):ago(j.created_at))+'</div></div></div>'+(j.description?'<div style="margin-top:8px">'+esc(j.description)+'</div>':"")+(j.image_url?'<img class="ph" alt="Ảnh lỗi" loading="lazy" src="'+esc(j.image_url)+'">':"")+contact(C[i],"Khách");
+    if(RV[j.id])h+='<div style="margin-top:8px">Khách chấm: <span class="star">'+stars(RV[j.id].stars)+'</span> '+esc(RV[j.id].comment)+'</div>';
+    h+='<div style="margin-top:10px"><a class="btn sec" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+j.lat+","+j.lng+'">🧭 Chỉ đường</a></div></div>'});
+  return h+'</div>';
+}
+
+/* ---------- Hồ sơ ---------- */
+async function viewMe(){
+  var w=S.prof.role==="worker",rt=w?await sb.rpc("worker_stats",{p_worker:S.user.id}):null;
+  return bar("Hồ sơ")+'<div class="card" style="text-align:center"><div class="av">'+esc((S.prof.full_name||"?").trim().charAt(0).toUpperCase())+'</div><b style="font-size:18px">'+esc(S.prof.full_name)+'</b><div class="mut">'+esc(fmtPhone(S.prof.phone))+' · '+(w?"Thợ kỹ thuật":"Khách hàng")+'</div>'+(w?'<div style="margin-top:6px">'+rateTxt(rt.data)+'</div>':"")+'<div class="tag ok" style="display:inline-block;margin-top:10px">Miễn phí sử dụng</div></div>'+
+  '<button class="btn sec" data-share="1" style="margin-bottom:10px">🎁 Mời bạn bè dùng thử</button><button class="btn bad" id="b-out">Đăng xuất</button></div>';
+}
+
+/* ---------- Render ---------- */
+var SKEL='<div class="hero sm" style="height:90px"></div><div class="pad" style="margin-top:16px"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>';
+function navHtml(){
+  var w=S.prof.role==="worker",it=w?[["jobs","📡","Việc quanh tôi"],["taken","📋","Việc đã nhận"],["me","👤","Hồ sơ"]]:[["home","🏠","Trang chủ"],["mine","📋","Tin của tôi"],["post","＋","Đăng tin"],["hist","🕘","Lịch sử"],["me","👤","Hồ sơ"]];
+  return'<div>'+it.map(function(x){return'<button data-go="'+x[0]+'" class="'+(S.nav===x[0]?"on":"")+(x[0]==="post"?" ctr":"")+'"><span>'+x[1]+'</span>'+x[2]+'</button>'}).join("")+'</div>';
+}
+async function render(){
+  var id=++S.rid,m=$("main"),nv=$("nav");
+  if(!S.user){nv.hidden=true;m.innerHTML=viewAuth();
+    m.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){S.mode=b.dataset.m;render()}});
+    m.querySelectorAll("[data-r]").forEach(function(b){b.onclick=function(){S.role=b.dataset.r;render()}});
+    $("a-go").onclick=doAuth;["a-phone","a-pass"].forEach(function(i){$(i).onkeydown=function(e){if(e.key==="Enter")doAuth()}});return}
+  if(!S.prof){nv.hidden=true;m.innerHTML='<div class="empty" style="padding-top:60px">Chưa có hồ sơ cho tài khoản này. Hãy chạy đủ các file SQL trong Supabase rồi đăng ký lại.<br><br><button class="btn sec sm" id="b-out">Đăng xuất</button></div>';$("b-out").onclick=function(){sb.auth.signOut()};return}
+  var w=S.prof.role==="worker";if(w&&["home","mine","post","hist"].indexOf(S.nav)>=0)S.nav="jobs";if(!w&&["jobs","taken"].indexOf(S.nav)>=0)S.nav="home";
+  nv.hidden=false;nv.innerHTML=navHtml();
+  if(S.last!==S.nav){m.innerHTML=SKEL;S.last=S.nav}
+  var html;
+  try{
+    if(S.nav==="home"){var st=await sb.rpc("home_stats");S.stats=st.error?null:st.data;html=await viewHome()}
+    else if(S.nav==="mine")html=await viewList(false);else if(S.nav==="hist")html=await viewList(true);
+    else if(S.nav==="post")html=viewPost();else if(S.nav==="jobs")html=await viewJobs();else if(S.nav==="taken")html=await viewTaken();else html=await viewMe();
+  }catch(x){html=bar("")+'<div class="empty">'+esc(x.message||"Không tải được dữ liệu")+'<br><br><button class="btn sec sm" id="b-re">Thử lại</button></div></div>'}
+  if(id!==S.rid)return;
+  m.innerHTML=html;
+  function on(sel,fn){m.querySelectorAll(sel).forEach(fn)}
+  [m,nv].forEach(function(root){root.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){go(b.dataset.go)}})});
+  on("[data-gps]",function(b){b.onclick=gps});
+  on("[data-share]",function(b){b.onclick=function(){var d={title:"Thợ Nhanh & Việc Nhanh",text:"Tìm thợ sửa chữa tại nhà, miễn phí đăng tin",url:location.href.split("#")[0]};
+    if(navigator.share)navigator.share(d).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(d.url).then(function(){toast("Đã chép link, gửi cho bạn bè nhé")})}});
+  on("[data-sub]",function(b){b.onclick=function(){var p=b.dataset.sub.split("|");S.form.svc=+p[0];S.form.title=p[1]||"";go("post")}});
+  on("[data-svc]",function(b){b.onclick=function(){S.form.svc=+b.dataset.svc;render()}});
+  on("[data-fill]",function(b){b.onclick=function(){S.form.title=b.dataset.fill;render()}});
+  on("[data-f]",function(b){b.onclick=function(){S.fsvc=+b.dataset.f;render()}});
+  on("[data-a]",function(b){b.onclick=function(){var a=b.dataset.a;act(async function(){var r=await sb.rpc("unlock_job",{p_job:a});if(r.error)throw r.error;S.nav="taken"},"Đã nhận việc. Số điện thoại khách đã hiện")}});
+  on("[data-cancel]",function(b){b.onclick=function(){if(!confirm("Hủy tin này?"))return;var a=b.dataset.cancel;act(async function(){var r=await sb.rpc("cancel_job",{p_job:a});if(r.error)throw r.error},"Đã hủy tin")}});
+  on("[data-rate]",function(b){b.onclick=function(){S.rate=b.dataset.rate;S.stars=0;S.comment="";render()}});
+  on("[data-star]",function(b){b.onclick=function(){var c=$("r-cm");if(c)S.comment=c.value;S.stars=+b.dataset.star;render()}});
+  var ok=$("r-ok");if(ok)ok.onclick=function(){var c=$("r-cm").value;if(!S.stars)return toast("Hãy chọn số sao");var jid=S.rate;act(async function(){var r=await sb.rpc("complete_job",{p_job:jid,p_stars:S.stars,p_comment:c});if(r.error)throw r.error;S.rate=null},"Cảm ơn bạn đã đánh giá")};
+  var no=$("r-no");if(no)no.onclick=function(){S.rate=null;render()};
+  var p=$("b-post");if(p)p.onclick=post;
+  var re=$("b-re");if(re)re.onclick=render;
+  var bo=$("b-out");if(bo)bo.onclick=function(){S.rate=null;sb.auth.signOut()};
+  var f=$("f-img");if(f)f.onchange=function(){var x=f.files[0];if(x&&x.size>15*1048576){f.value="";return toast("Ảnh quá lớn, chọn ảnh dưới 15 MB")}S.file=x||null;S.prev=x?URL.createObjectURL(x):null;render()};
+  var t=$("f-title");if(t){t.oninput=function(e){S.form.title=e.target.value};$("f-desc").oninput=function(e){S.form.desc=e.target.value};$("f-addr").oninput=function(e){S.form.addr=e.target.value}}
+  var rd=$("f-rad");if(rd){rd.oninput=function(){$("rad-l").textContent="Bán kính tìm việc: "+rd.value+" km"};rd.onchange=function(){S.radius=+rd.value;render()}}
+  var q=$("q");if(q){q.oninput=function(){var v=norm(q.value.trim()),sg=$("sug");if(!v){sg.hidden=true;return}
+    var A=[];S.services.forEach(function(s){A.push([s.id,s.icon,s.name]);(SUBS[s.slug]||[]).forEach(function(x){var p=x.split("|");A.push([s.id,p[0],p[1]])})});
+    var R=A.filter(function(a){return norm(a[2]).indexOf(v)>=0}).slice(0,6);
+    sg.innerHTML=R.length?R.map(function(a){return'<button data-sub="'+a[0]+"|"+esc(a[2])+'"><span>'+a[1]+'</span>'+esc(a[2])+'</button>'}).join(""):'<button data-sub="'+(S.form.svc||1)+"|"+esc(q.value.trim())+'"><span>✏️</span>Đăng tin: '+esc(q.value.trim())+'</button>';
+    sg.hidden=false;sg.querySelectorAll("[data-sub]").forEach(function(b){b.onclick=function(){var p=b.dataset.sub.split("|");S.form.svc=+p[0];S.form.title=p[1]||"";go("post")}})}}
+}
+setInterval(function(){if(S.user&&S.prof&&S.prof.role==="worker"&&S.nav==="jobs"&&!document.hidden&&!S.busy)render()},30000);
+boot();
+})();
+</script>
+</body>
+</html>
