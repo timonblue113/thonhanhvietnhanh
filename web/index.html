@@ -132,7 +132,7 @@ function go(n){S.nav=n;window.scrollTo(0,0);render()}
 
 async function boot(){
   try{
-    var r=await sb.auth.getSession();S.user=r.data.session?r.data.session.user:null;S.prof=null;
+    var r=await sb.auth.getSession();var nu=r.data.session?r.data.session.user:null;if((nu?nu.id:null)!==(S.user?S.user.id:null)){S.form={svc:0,title:"",desc:"",addr:""};S.file=null;S.prev=null;S.unread={};S.stats=null;S.rate=null;S.fsvc=0}S.user=nu;S.prof=null;
     if(S.user){
       var q=await Promise.all([sb.from("profiles").select("*").eq("id",S.user.id).maybeSingle(),sb.from("services").select("*").order("id")]);
       S.prof=q[0].data;S.services=q[1].data||[];if(!S.form.svc&&S.services[0])S.form.svc=S.services[0].id;
@@ -223,7 +223,7 @@ function doAuth(){act(async function(){
 /* ---------- Khách ---------- */
 async function viewHome(){
   var st=S.stats;
-  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc((S.prof.full_name||"bạn").split(" ").pop())+'<small>Bạn cần thợ gì hôm nay?</small></div>'+locChip()+'</div>'+
+  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc(S.prof.full_name||"bạn")+'<small>📱 '+esc(fmtPhone(S.prof.phone))+' · Chế độ Khách</small></div>'+locChip()+'</div>'+
   '<div class="search"><i>🔍</i><input id="q" placeholder="Sửa máy lạnh, camera, wifi, khóa…" autocomplete="off" aria-label="Tìm dịch vụ"><div id="sug" hidden></div></div></div>'+
   '<div class="pad float"><div class="quick">'+[["post","✏️","Đăng tin nhanh"],["mine","⏳","Tin đang chờ"],["hist","🕘","Lịch sử"],["share","🎁","Mời bạn bè"]].map(function(x){return'<button '+(x[0]==="share"?'data-share="1"':'data-go="'+x[0]+'"')+'><span class="ic">'+x[1]+'</span>'+x[2]+'</button>'}).join("")+'</div>'+
   '<div class="banner"><b>Đăng tin miễn phí</b>, thợ gần bạn gọi lại trong vài phút.'+(st?'<div class="st"><span>👷 '+st.workers+' thợ đã đăng ký</span><span>📌 '+st.open+' việc đang chờ</span><span>✅ '+st.done+' việc hoàn thành</span></div>':"")+'</div>';
@@ -287,7 +287,7 @@ function radar(L){
 }
 async function viewJobs(){
   var rt=await sb.rpc("worker_stats",{p_worker:S.user.id});
-  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc((S.prof.full_name||"thợ").split(" ").pop())+'<small>'+(rt.data&&rt.data.cnt>0?"★ "+rt.data.avg+" · "+rt.data.cnt+" đánh giá":"Chưa có đánh giá")+'</small></div>'+locChip()+'</div>'+
+  var h='<div class="hero"><div class="top"><div class="hi">Xin chào, '+esc(S.prof.full_name||"thợ")+'<small>📱 '+esc(fmtPhone(S.prof.phone))+' · '+(rt.data&&rt.data.cnt>0?"★ "+rt.data.avg+" · "+rt.data.cnt+" đánh giá":"Chưa có đánh giá")+'</small></div>'+locChip()+'</div>'+
   '<div style="margin-top:14px;background:rgba(255,255,255,.55);border-radius:14px;padding:10px 14px"><div class="row"><b id="rad-l">Bán kính tìm việc: '+S.radius+' km</b></div><input id="f-rad" type="range" min="2" max="30" value="'+S.radius+'" style="padding:0;margin-top:6px;border:0;background:none" aria-label="Bán kính"></div></div><div class="pad" style="margin-top:14px">';
   var r=await sb.rpc("jobs_nearby",{p_lat:S.loc.lat,p_lng:S.loc.lng,p_radius_km:S.radius});
   if(r.error)throw r.error;
